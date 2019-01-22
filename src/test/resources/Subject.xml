@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<subject subject_id="1" duration_in_hours="20" subTitle="Java" />
+	<subject subject_id="2" duration_in_hours="8" subTitle="CSS" />
+	<subject subject_id="3" duration_in_hours="16" subTitle="HTML" />
+</dataset>

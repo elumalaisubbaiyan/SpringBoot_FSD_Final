@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60">
+	<Properties>
+		<Property name="log-path">logs</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console-Appender" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern> [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+		</Console>
+		<RollingFile name="FileAppender" fileName="${log-path}/fsd_service.log"
+			filePattern="logs/$${date:yyyy-MM}/fsd-service-%d{MM-dd-yyyy}-i.log">
+
+			<PatternLayout>
+				<pattern>
+					[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRollOverStrategy max="10" />
+		</RollingFile>
+		<File name="SpringBootAppender" fileName="${log-path}/springboot_log.log">
+			<PatternLayout>
+				<pattern>
+					[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+		</File>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.springframework" level="info" additivity="false">
+			<AppenderRef ref="SpringBootAppender" />
+			<AppenderRef ref="Console-Appender" />
+		</Logger>
+		<Logger name="com.cts.fsd" level="info" additivity="false">
+			<AppenderRef ref="FileAppender" />
+			<AppenderRef ref="Console-Appender" />
+		</Logger>
+		<Logger name="org.hibernate" level="info" additivity="false">
+			<AppenderRef ref="FileAppender" />
+			<AppenderRef ref="Console-Appender" />
+		</Logger>
+		<Logger name="org.hibernate.type.descriptor.sql" level="info"
+			additivity="false">
+			<AppenderRef ref="FileAppender" />
+			<AppenderRef ref="Console-Appender" />
+		</Logger>
+		<Logger name="org.hibernate.SQL" level="info" additivity="false">
+			<AppenderRef ref="FileAppender" />
+			<AppenderRef ref="Console-Appender" />
+		</Logger>
+
+		<Root level="debug">
+			<AppenderRef ref="FileAppender" />
+			<AppenderRef ref="Console-Appender" />
+		</Root>
+	</Loggers>
+</Configuration>
