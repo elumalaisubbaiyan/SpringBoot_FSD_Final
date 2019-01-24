@@ -47,7 +47,7 @@ public class TaskController {
 
 	@RequestMapping(value = "/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> getTask(@PathVariable long taskId, HttpServletResponse response)
+	public ResponseEntity<Object> getTask(@PathVariable Integer taskId, HttpServletResponse response)
 			throws NotFoundException {
 		TaskDetails searchedTask = taskService.searchTask(taskId);
 		if (searchedTask == null) {
@@ -67,14 +67,15 @@ public class TaskController {
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> addTask(@RequestBody TaskDetails taskDetails, HttpServletRequest request) {
 		try {
-			initializeTaskStatus(taskDetails);
+
 			if (taskDetails.getParentTaskId() != null
 					&& (taskDetails.getParentTaskId() == 0 || taskDetails.getParentTaskId() == -1)) {
-				if(taskDetails.getParentTaskId() == -1) {
+				if (taskDetails.getParentTaskId() == -1) {
 					taskDetails.setParentTask("Self");
 				}
 				taskDetails.setParentTaskId(null);
 			}
+			initializeTaskStatus(taskDetails);
 			taskService.addTask(taskDetails);
 			log.info("Successfully added task >> " + taskDetails);
 			return ResponseEntity.ok(taskDetails);
@@ -92,11 +93,21 @@ public class TaskController {
 		try {
 			log.info("Task to be updated >> " + task);
 			initializeTaskStatus(task);
+			if (task.getParentTaskId() != null) {
+				if (task.getParentTaskId() == 0) {
+					task.setParentTaskId(null);
+				} else if (task.getParentTaskId() == -1) {
+					task.setParentTaskId(task.getTaskId());
+				}
+			}
+
 			task.setTaskId(taskId);
 			taskService.updateTask(task);
 			log.info("Successfully updated details for task id " + task.getTaskId());
 			return ResponseEntity.ok(task);
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			log.error("Cannot update task " + task + ". Exception occured " + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(
 					"Exception occured processing your request. Please try again. " + e.getMessage());
@@ -105,7 +116,7 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/{taskIdToDelete}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteTask(@PathVariable long taskIdToDelete, HttpServletRequest request) {
+	public ResponseEntity<Object> deleteTask(@PathVariable Integer taskIdToDelete, HttpServletRequest request) {
 		try {
 			taskService.deleteTask(taskIdToDelete);
 		} catch (Exception e) {
