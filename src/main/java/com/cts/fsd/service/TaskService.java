@@ -12,9 +12,9 @@ public interface TaskService {
 
 	void updateTask(TaskDetails task);
 
-	TaskDetails searchTask(long taskId);
+	TaskDetails searchTask(Integer taskId);
 
-	void deleteTask(long taskId) throws NotFoundException;
+	void deleteTask(Integer taskId) throws NotFoundException;
 
 	List<TaskDetails> getAllTasks();
 

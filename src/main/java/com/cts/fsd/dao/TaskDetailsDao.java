@@ -10,7 +10,7 @@ public interface TaskDetailsDao {
 
 	void updateTask(TaskDetails task);
 
-	TaskDetails searchTask(long taskId);
+	TaskDetails searchTask(Integer taskId);
 
 	void deleteTask(TaskDetails task);
 

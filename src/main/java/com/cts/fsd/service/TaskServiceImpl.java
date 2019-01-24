@@ -23,12 +23,12 @@ public class TaskServiceImpl implements TaskService {
 		taskDetailsDao.updateTask(entity);
 	}
 
-	public TaskDetails searchTask(long taskId) {
+	public TaskDetails searchTask(Integer taskId) {
 		TaskDetails task = taskDetailsDao.searchTask(taskId);
 		return task;
 	}
 
-	public void deleteTask(long taskId) throws NotFoundException {
+	public void deleteTask(Integer taskId) throws NotFoundException {
 		TaskDetails task = taskDetailsDao.searchTask(taskId);
 		if (task == null) {
 			throw new NotFoundException("Cannot find task with " + taskId);
