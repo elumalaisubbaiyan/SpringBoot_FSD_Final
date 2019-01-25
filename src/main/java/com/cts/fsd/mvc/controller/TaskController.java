@@ -23,8 +23,6 @@ import com.cts.fsd.domain.ErrorMessage;
 import com.cts.fsd.domain.TaskDetails;
 import com.cts.fsd.service.TaskService;
 
-import javassist.NotFoundException;
-
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
@@ -35,20 +33,18 @@ public class TaskController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> getAllTasks(HttpServletResponse response) throws NotFoundException {
+	public ResponseEntity<Object> getAllTasks(HttpServletResponse response) {
 		List<TaskDetails> allTasks = taskService.getAllTasks();
 		if (allTasks == null || allTasks.isEmpty()) {
 			ErrorMessage errorMessage = new ErrorMessage("No Tasks are available");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-
 		}
 		return ResponseEntity.ok(allTasks);
 	}
 
 	@RequestMapping(value = "/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> getTask(@PathVariable Integer taskId, HttpServletResponse response)
-			throws NotFoundException {
+	public ResponseEntity<Object> getTask(@PathVariable Integer taskId, HttpServletResponse response) {
 		TaskDetails searchedTask = taskService.searchTask(taskId);
 		if (searchedTask == null) {
 			ErrorMessage errorMessage = new ErrorMessage("Could not find task with id " + taskId);
@@ -77,7 +73,7 @@ public class TaskController {
 			}
 			initializeTaskStatus(taskDetails);
 			taskService.addTask(taskDetails);
-			log.info("Successfully added task >> " + taskDetails);
+			log.info("Successfully added task {} ", taskDetails);
 			return ResponseEntity.ok(taskDetails);
 		} catch (Exception e) {
 			log.error("Cannot add task " + taskDetails + "Exception in adding new task " + e.getMessage(), e);
@@ -91,7 +87,7 @@ public class TaskController {
 	public ResponseEntity<Object> updateTask(@PathVariable int taskId, @RequestBody TaskDetails task,
 			HttpServletRequest request) {
 		try {
-			log.info("Task to be updated >> " + task);
+			log.info("Task to be updated {} ", task);
 			initializeTaskStatus(task);
 			if (task.getParentTaskId() != null) {
 				if (task.getParentTaskId() == 0) {
@@ -103,7 +99,7 @@ public class TaskController {
 
 			task.setTaskId(taskId);
 			taskService.updateTask(task);
-			log.info("Successfully updated details for task id " + task.getTaskId());
+			log.info("Successfully updated details for task id {}", task.getTaskId());
 			return ResponseEntity.ok(task);
 		} catch (
 

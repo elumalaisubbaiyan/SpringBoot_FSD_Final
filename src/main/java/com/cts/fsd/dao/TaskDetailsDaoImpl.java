@@ -19,10 +19,10 @@ public class TaskDetailsDaoImpl extends BaseDao implements TaskDetailsDao {
 		int savedTaskId = (Integer) session.save(task);
 		session.flush();
 		closeSessionwithTransaction(session);
-		log.info("Retrieved task id " + savedTaskId + " after successfully added task " + task);
+		log.info("Retrieved task id {} after adding the task successfully {} ", savedTaskId, task);
 		// If the parent is self, then update the record again
 		if (savedTaskId != 0 && ("Self").equalsIgnoreCase(task.getParentTask())) {
-			log.info("Update parent task id for task id " + savedTaskId);
+			log.info("Update parent task id for task id {} ", savedTaskId);
 			task.setParentTaskId(savedTaskId);
 			task.setParentTask(task.getTask());
 			updateTask(task);

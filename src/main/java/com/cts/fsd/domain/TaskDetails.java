@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class TaskDetails {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "task_id")
 	private int taskId;
 
@@ -56,7 +56,7 @@ public class TaskDetails {
 	private Date endDate;
 
 	public TaskDetails() {
-
+		super();
 	}
 
 	public int getTaskId() {
@@ -138,6 +138,23 @@ public class TaskDetails {
 	public String toString() {
 		return "TaskDetails [taskId=" + taskId + ", parentTaskId=" + parentTaskId + ", task=" + task + ", status="
 				+ status + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || (obj.getClass() != this.getClass())) {
+			return false;
+		}
+		TaskDetails newTask = (TaskDetails) obj;
+		if (this.taskId == newTask.getTaskId()) {
+			return true;
+		}
+		return super.equals(obj);
 	}
 
 }

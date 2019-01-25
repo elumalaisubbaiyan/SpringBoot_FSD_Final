@@ -17,8 +17,7 @@ public class MVCApplicationConfiguration {
 		Configuration configuration = new Configuration().configure();
 		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties());
-		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-		return sessionFactory;
+		return configuration.buildSessionFactory(builder.build());
 	}
 
 }

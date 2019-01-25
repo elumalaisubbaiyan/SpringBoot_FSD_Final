@@ -1,23 +1,23 @@
 package com.cts.fsd.domain;
 
 public class ErrorMessage {
-	public String errorMessage;
+	private String errorMsg;
 
 	public ErrorMessage() {
 
 	}
 
-	public ErrorMessage(String errorMessage) {
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
+
+	public ErrorMessage(String errorMsg) {
 		super();
-		this.errorMessage = errorMessage;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+		this.errorMsg = errorMsg;
 	}
 
 }
