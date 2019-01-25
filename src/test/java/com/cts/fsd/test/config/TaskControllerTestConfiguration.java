@@ -1,4 +1,6 @@
-package com.cts.fsd.test.configuration;
+package com.cts.fsd.test.config;
+
+import static org.mockito.Mockito.mock;
 
 import java.util.Properties;
 
@@ -9,18 +11,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
-import org.springframework.transaction.annotation.EnableTransactionManagement;;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import com.cts.fsd.dao.TaskDetailsDao;
+import com.cts.fsd.dao.TaskDetailsDaoImpl;
+import com.cts.fsd.mvc.controller.TaskController;
+import com.cts.fsd.service.TaskService;
+import com.cts.fsd.service.TaskServiceImpl;
 
 @Configuration
-@EnableTransactionManagement
-@ComponentScan({ "com.cts.fsd.dao, com.cts.fsd.domain" })
-public class TestDataSourceConfiguration {
-	/*@Autowired
-	private Environment environment;
-	*/
+@ComponentScan(basePackages = { "com.cts.fsd.mvc.controller" }, useDefaultFilters = false, includeFilters = {
+		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = { TaskController.class }) })
+@EnableWebMvc
+public class TaskControllerTestConfiguration {
+
+	@Bean(name = "taskDetailsDao")
+	public TaskDetailsDao taskDetailsDao() {
+		TaskDetailsDao taskDetailsDao = mock(TaskDetailsDaoImpl.class);
+		return taskDetailsDao;
+	}
+
+	@Bean(name = "taskService")
+	public TaskService taskService() {
+		TaskDetailsDao taskDetailsDao = mock(TaskDetailsDaoImpl.class);
+		TaskService taskService = mock(TaskServiceImpl.class);
+		ReflectionTestUtils.setField(taskService, "taskDetailsDao", taskDetailsDao);
+		return taskService;
+	}
 
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {

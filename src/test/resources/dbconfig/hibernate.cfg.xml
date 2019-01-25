@@ -12,7 +12,6 @@
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 		<property name="show_sql">true</property>
 		<property name="hibernate.current_session_context_class">thread</property>
-		<mapping class="com.cts.fsd.domain.Book" />
-		<mapping class="com.cts.fsd.domain.Subject" />
+		<mapping class="com.cts.fsd.domain.TaskDetails" />
 	</session-factory>
 </hibernate-configuration>

@@ -24,8 +24,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	public TaskDetails searchTask(Integer taskId) {
-		TaskDetails task = taskDetailsDao.searchTask(taskId);
-		return task;
+		return taskDetailsDao.searchTask(taskId);
 	}
 
 	public void deleteTask(Integer taskId) throws NotFoundException {
