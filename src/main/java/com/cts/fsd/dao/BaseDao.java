@@ -30,4 +30,33 @@ public class BaseDao {
 		session.close();
 	}
 
+	protected void saveData(Object data) {
+		Session session = openSessionwithTransaction();
+		session.flush();
+		session.save(data);
+		closeSessionwithTransaction(session);
+	}
+
+	protected void updateData(Object data) {
+		Session session = openSessionwithTransaction();
+		session.flush();
+		session.update(data);
+		closeSessionwithTransaction(session);
+	}
+
+	protected Object getDataById(Integer id, Class<?> outputClass) {
+		Session session = openSession();
+		session.clear();
+		Object resultObject = session.get(outputClass, id);
+		closeSession(session);
+		return resultObject;
+	}
+
+	protected void deleteData(Object data) {
+		Session session = openSessionwithTransaction();
+		session.delete(data);
+		session.flush();
+		closeSessionwithTransaction(session);
+	}
+
 }
