@@ -29,7 +29,7 @@ public class UsersController {
 
 	private static final String ERROR_MSG = "Exception occured processing your request. Please try again. ";
 	
-	private static final NO_USERS_ERROR_MSG = "No Users are available in the system";
+	private static final String NO_USERS_ERROR_MSG = "No Users are available in the system";
 	
 	private static final String USER_NOT_FOUND = "Could not find user with id ";
 
