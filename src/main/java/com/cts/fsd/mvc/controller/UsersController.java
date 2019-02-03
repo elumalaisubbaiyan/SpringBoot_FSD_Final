@@ -62,7 +62,7 @@ public class UsersController {
 		} catch (Exception e) {
 			log.error("Cannot add user " + user + "Exception in adding new user " + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(
-					"Exception occured proessing your request. Please try again. " + e.getMessage());
+					"Exception occured processing your request. Please try again. " + e.getMessage());
 			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
