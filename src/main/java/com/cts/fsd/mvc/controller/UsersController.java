@@ -90,7 +90,9 @@ public class UsersController {
 	@RequestMapping(value = "/{userIdToDelete}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteTask(@PathVariable Integer userIdToDelete, HttpServletRequest request) {
 		try {
+			log.info("User id to be deleted {} ", userIdToDelete);
 			userService.deleteUser(userIdToDelete);
+			log.info("Successfully deleted user with user id {} ", userIdToDelete);
 		} catch (Exception e) {
 			log.error("Cannot delete user with id " + userIdToDelete + ". Exception occured " + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
