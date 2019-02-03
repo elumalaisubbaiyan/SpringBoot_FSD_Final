@@ -29,6 +29,12 @@ public class UsersController {
 	private static final Logger log = LoggerFactory.getLogger(UsersController.class);
 
 	private static final String ERROR_MSG = "Exception occured processing your request. Please try again. ";
+	
+	private static final String NO_USERS_ERROR_MSG = "No Users are available in the system";
+	
+	private static final String USER_NOT_FOUND = "Could not find user with id ";
+	
+	private static final String ADD_USER_ERR = "Exception in adding new user ";
 
 	@Autowired
 	private UserService userService;
@@ -38,7 +44,7 @@ public class UsersController {
 	public ResponseEntity<Object> getAllUsers(HttpServletResponse response) {
 		List<User> allUsers = userService.getAllUsers();
 		if (allUsers == null || allUsers.isEmpty()) {
-			ErrorMessage errorMessage = new ErrorMessage("No Users are available in the system");
+			ErrorMessage errorMessage = new ErrorMessage(NO_USERS_ERROR_MSG);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 		}
 		return ResponseEntity.ok(allUsers);
@@ -49,7 +55,7 @@ public class UsersController {
 	public ResponseEntity<Object> getUser(@PathVariable Integer userId, HttpServletResponse response) {
 		User searchedTask = userService.searchUser(userId);
 		if (searchedTask == null) {
-			ErrorMessage errorMessage = new ErrorMessage("Could not find user with id " + userId);
+			ErrorMessage errorMessage = new ErrorMessage(USER_NOT_FOUND + userId);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 
 		}
@@ -63,7 +69,7 @@ public class UsersController {
 			log.info("Successfully added user {} ", user);
 			return ResponseEntity.ok(user);
 		} catch (Exception e) {
-			log.error("Cannot add user " + user + "Exception in adding new user " + e.getMessage(), e);
+			log.error("Cannot add user " + user + ADD_USER_ERR + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
 			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -87,7 +93,9 @@ public class UsersController {
 	@RequestMapping(value = "/{userIdToDelete}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteTask(@PathVariable Integer userIdToDelete, HttpServletRequest request) {
 		try {
+			log.info("User id to be deleted {} ", userIdToDelete);
 			userService.deleteUser(userIdToDelete);
+			log.info("Successfully deleted user with user id {} ", userIdToDelete);
 		} catch (Exception e) {
 			log.error("Cannot delete user with id " + userIdToDelete + ". Exception occured " + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());

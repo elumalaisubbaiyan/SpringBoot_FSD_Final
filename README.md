@@ -5,6 +5,11 @@
 ## Software Requirements 
 Maven
 JDK 1.8
+
+## Jenkins hooks
+Added a post-commit file under .git folder with the below lines to trigger the jenkins after each commit
+
+curl http://localhost:8080/git/notifyCommit?url=https://github.com/elumalaisubbaiyan/SpringBoot_FSD_Final.git
  
  
 ## Running the application locally
