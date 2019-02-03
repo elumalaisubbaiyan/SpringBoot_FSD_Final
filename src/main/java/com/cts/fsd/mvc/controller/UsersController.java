@@ -27,6 +27,8 @@ import com.cts.fsd.service.UserService;
 public class UsersController {
 	private static final Logger log = LoggerFactory.getLogger(UsersController.class);
 
+	private static final String ERROR_MSG = "Exception occured processing your request. Please try again. ";
+
 	@Autowired
 	private UserService userService;
 
@@ -61,8 +63,7 @@ public class UsersController {
 			return ResponseEntity.ok(user);
 		} catch (Exception e) {
 			log.error("Cannot add user " + user + "Exception in adding new user " + e.getMessage(), e);
-			ErrorMessage errorMessage = new ErrorMessage(
-					"Exception occured processing your request. Please try again. " + e.getMessage());
+			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
 			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -77,8 +78,7 @@ public class UsersController {
 			return ResponseEntity.ok(user);
 		} catch (Exception e) {
 			log.error("Cannot update user " + user + ". Exception occured " + e.getMessage(), e);
-			ErrorMessage errorMessage = new ErrorMessage(
-					"Exception occured processing your request. Please try again. " + e.getMessage());
+			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
 			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -89,8 +89,7 @@ public class UsersController {
 			userService.deleteUser(userIdToDelete);
 		} catch (Exception e) {
 			log.error("Cannot delete user with id " + userIdToDelete + ". Exception occured " + e.getMessage(), e);
-			ErrorMessage errorMessage = new ErrorMessage(
-					"Exception occured proessing your request. Please try again. " + e.getMessage());
+			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
 			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
