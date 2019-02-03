@@ -30,6 +30,8 @@ public class UsersController {
 	private static final String ERROR_MSG = "Exception occured processing your request. Please try again. ";
 	
 	private static final NO_USERS_ERROR_MSG = "No Users are available in the system";
+	
+	private static final String USER_NOT_FOUND = "Could not find user with id ";
 
 	@Autowired
 	private UserService userService;
@@ -50,7 +52,7 @@ public class UsersController {
 	public ResponseEntity<Object> getUser(@PathVariable Integer userId, HttpServletResponse response) {
 		User searchedTask = userService.searchUser(userId);
 		if (searchedTask == null) {
-			ErrorMessage errorMessage = new ErrorMessage("Could not find user with id " + userId);
+			ErrorMessage errorMessage = new ErrorMessage( + userId);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 
 		}
