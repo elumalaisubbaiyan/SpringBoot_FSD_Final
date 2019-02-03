@@ -28,6 +28,8 @@ public class UsersController {
 	private static final Logger log = LoggerFactory.getLogger(UsersController.class);
 
 	private static final String ERROR_MSG = "Exception occured processing your request. Please try again. ";
+	
+	private static final NO_USERS_ERROR_MSG = "No Users are available in the system";
 
 	@Autowired
 	private UserService userService;
@@ -37,7 +39,7 @@ public class UsersController {
 	public ResponseEntity<Object> getAllUsers(HttpServletResponse response) {
 		List<User> allUsers = userService.getAllUsers();
 		if (allUsers == null || allUsers.isEmpty()) {
-			ErrorMessage errorMessage = new ErrorMessage("No Users are available in the system");
+			ErrorMessage errorMessage = new ErrorMessage(NO_USERS_ERROR_MSG);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 		}
 		return ResponseEntity.ok(allUsers);
