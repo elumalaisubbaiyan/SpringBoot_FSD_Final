@@ -23,7 +23,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
 	public User searchUser(Integer userId) {
 		User user = null;
-		Object result = getDataById(userId, TaskDetails.class);
+		Object result = getDataById(userId, User.class);
 		if (result != null) {
 			user = (User) result;
 		}

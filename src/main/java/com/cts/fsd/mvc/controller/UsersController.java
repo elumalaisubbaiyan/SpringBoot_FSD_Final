@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.fsd.domain.ErrorMessage;
+import com.cts.fsd.domain.ResponseData;
 import com.cts.fsd.domain.User;
 import com.cts.fsd.service.UserService;
 
@@ -91,9 +92,10 @@ public class UsersController {
 			log.error("Cannot delete user with id " + userIdToDelete + ". Exception occured " + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
 			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
-
 		}
-		return ResponseEntity.ok("Successfully Deleted user with user id " + userIdToDelete);
+		ResponseData responseData = new ResponseData();
+		responseData.setStatusMsg("Successfully Deleted user with user id " + userIdToDelete);
+		return ResponseEntity.ok(responseData);
 	}
 
 }

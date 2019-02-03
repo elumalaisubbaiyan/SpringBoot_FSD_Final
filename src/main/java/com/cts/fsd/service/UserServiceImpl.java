@@ -23,14 +23,14 @@ public class UserServiceImpl implements UserService {
 		userDao.updateUser(entity);
 	}
 
-	public User searchUser(Integer taskId) {
-		return userDao.searchUser(taskId);
+	public User searchUser(Integer userId) {
+		return userDao.searchUser(userId);
 	}
 
-	public void deleteUser(Integer taskId) throws NotFoundException {
-		User task = userDao.searchUser(taskId);
+	public void deleteUser(Integer userId) throws NotFoundException {
+		User task = userDao.searchUser(userId);
 		if (task == null) {
-			throw new NotFoundException("Cannot find task with " + taskId);
+			throw new NotFoundException("Cannot find user with " + userId);
 		}
 		userDao.deleteUser(task);
 	}

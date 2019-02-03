@@ -16,13 +16,13 @@ public class User {
 	@Column(name = "user_id")
 	private int userId;
 
-	@Column(name = "first_name", nullable = true)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
-	@Column
+	@Column(name = "employee_id", nullable = false)
 	private Integer employeeId;
 
 	public User() {
