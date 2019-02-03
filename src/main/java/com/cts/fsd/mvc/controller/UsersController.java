@@ -35,7 +35,7 @@ public class UsersController {
 	public ResponseEntity<Object> getAllUsers(HttpServletResponse response) {
 		List<User> allUsers = userService.getAllUsers();
 		if (allUsers == null || allUsers.isEmpty()) {
-			ErrorMessage errorMessage = new ErrorMessage("No Users are available");
+			ErrorMessage errorMessage = new ErrorMessage("No Users are available in the system");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 		}
 		return ResponseEntity.ok(allUsers);
