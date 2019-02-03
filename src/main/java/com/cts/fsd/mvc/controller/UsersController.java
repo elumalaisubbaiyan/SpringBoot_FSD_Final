@@ -52,7 +52,7 @@ public class UsersController {
 	public ResponseEntity<Object> getUser(@PathVariable Integer userId, HttpServletResponse response) {
 		User searchedTask = userService.searchUser(userId);
 		if (searchedTask == null) {
-			ErrorMessage errorMessage = new ErrorMessage( + userId);
+			ErrorMessage errorMessage = new ErrorMessage(USER_NOT_FOUND + userId);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 
 		}
