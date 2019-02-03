@@ -32,6 +32,8 @@ public class UsersController {
 	private static final String NO_USERS_ERROR_MSG = "No Users are available in the system";
 	
 	private static final String USER_NOT_FOUND = "Could not find user with id ";
+	
+	private static final String UPDTE_USER_ERR = "Exception in adding new user ";
 
 	@Autowired
 	private UserService userService;
@@ -66,7 +68,7 @@ public class UsersController {
 			log.info("Successfully added user {} ", user);
 			return ResponseEntity.ok(user);
 		} catch (Exception e) {
-			log.error("Cannot add user " + user + "Exception in adding new user " + e.getMessage(), e);
+			log.error("Cannot add user " + user + UPDATE_USER_ERR + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
 			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
