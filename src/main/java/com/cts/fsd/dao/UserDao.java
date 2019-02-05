@@ -10,7 +10,7 @@ public interface UserDao {
 
 	void updateUser(User user);
 
-	User searchUser(Integer taskId);
+	User searchUser(Integer userId);
 
 	void deleteUser(User user);
 

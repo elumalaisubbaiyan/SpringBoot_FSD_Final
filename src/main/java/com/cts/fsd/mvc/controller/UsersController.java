@@ -53,17 +53,17 @@ public class UsersController {
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Object> getUser(@PathVariable Integer userId, HttpServletResponse response) {
-		User searchedTask = userService.searchUser(userId);
-		if (searchedTask == null) {
+		User searchedUser = userService.searchUser(userId);
+		if (searchedUser == null) {
 			ErrorMessage errorMessage = new ErrorMessage(USER_NOT_FOUND + userId);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 
 		}
-		return ResponseEntity.ok(searchedTask);
+		return ResponseEntity.ok(searchedUser);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addTask(@RequestBody User user, HttpServletRequest request) {
+	public ResponseEntity<Object> addUser(@RequestBody User user, HttpServletRequest request) {
 		try {
 			userService.addUser(user);
 			log.info("Successfully added user {} ", user);
@@ -76,7 +76,7 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateTask(@PathVariable int userId, @RequestBody User user,
+	public ResponseEntity<Object> updateUser(@PathVariable int userId, @RequestBody User user,
 			HttpServletRequest request) {
 		try {
 			log.info("User to be updated {} ", user);
@@ -91,7 +91,7 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/{userIdToDelete}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteTask(@PathVariable Integer userIdToDelete, HttpServletRequest request) {
+	public ResponseEntity<Object> deleteUser(@PathVariable Integer userIdToDelete, HttpServletRequest request) {
 		try {
 			log.info("User id to be deleted {} ", userIdToDelete);
 			userService.deleteUser(userIdToDelete);
