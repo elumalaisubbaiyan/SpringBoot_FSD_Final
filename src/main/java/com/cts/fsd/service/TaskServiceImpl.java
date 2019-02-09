@@ -37,7 +37,18 @@ public class TaskServiceImpl implements TaskService {
 
 	public List<TaskDetails> getAllTasks() {
 		return taskDetailsDao.getAllTasks();
-
 	}
+	
+	public List<TaskDetails> getParentTasks() {
+		return taskDetailsDao.getParentTasks();
+	}
+
+	@Override
+	public List<TaskDetails> getTasksByProject(int projectId) {
+		return taskDetailsDao.getTasksByProject(projectId);
+	}
+	
+	
+
 
 }

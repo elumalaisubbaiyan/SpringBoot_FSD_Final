@@ -60,7 +60,6 @@ public class TaskDaoTest extends EntityDaoTest {
 		TaskDetails taskToBeAdded = new TaskDetails();
 		taskToBeAdded.setTaskId(5);
 		taskToBeAdded.setTask("New Task");
-		taskToBeAdded.setParentTask("Self");
 		taskDao.addTask(taskToBeAdded);
 		TaskDetails searchedTask = taskDao.searchTask(5);
 		Assert.assertEquals(taskToBeAdded.getTaskId(), searchedTask.getTaskId());

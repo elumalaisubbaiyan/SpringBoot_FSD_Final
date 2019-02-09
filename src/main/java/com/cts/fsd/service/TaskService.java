@@ -18,4 +18,8 @@ public interface TaskService {
 
 	List<TaskDetails> getAllTasks();
 
+	List<TaskDetails> getParentTasks();
+
+	List<TaskDetails> getTasksByProject(int projectId);
+
 }

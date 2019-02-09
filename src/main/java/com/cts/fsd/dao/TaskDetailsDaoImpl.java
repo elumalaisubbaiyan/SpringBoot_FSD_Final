@@ -20,14 +20,6 @@ public class TaskDetailsDaoImpl extends BaseDao implements TaskDetailsDao {
 		session.flush();
 		closeSessionwithTransaction(session);
 		log.info("Retrieved task id {} after adding the task successfully {} ", savedTaskId, task);
-		// If the parent is self, then update the record again
-		if (savedTaskId != 0 && ("Self").equalsIgnoreCase(task.getParentTask())) {
-			log.info("Update parent task id for task id {} ", savedTaskId);
-			task.setParentTaskId(savedTaskId);
-			task.setParentTask(task.getTask());
-			updateTask(task);
-		}
-
 	}
 
 	public void updateTask(TaskDetails task) {
@@ -57,6 +49,26 @@ public class TaskDetailsDaoImpl extends BaseDao implements TaskDetailsDao {
 		Session session = openSession();
 		session.clear();
 		List<TaskDetails> tasks = (List<TaskDetails>) session.createCriteria(TaskDetails.class).list();
+		closeSession(session);
+		return tasks;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TaskDetails> getParentTasks() {
+		Session session = openSession();
+		session.clear();
+		List<TaskDetails> tasks = session.createSQLQuery("select * from task_details where marked_parent=?")
+				.addEntity(TaskDetails.class).setBoolean(0, true).list();
+		closeSession(session);
+		return tasks;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TaskDetails> getTasksByProject(int projectId) {
+		Session session = openSession();
+		session.clear();
+		List<TaskDetails> tasks = session.createSQLQuery("select * from task_details where project_id=?")
+				.addEntity(TaskDetails.class).setInteger(0, projectId).list();
 		closeSession(session);
 		return tasks;
 	}

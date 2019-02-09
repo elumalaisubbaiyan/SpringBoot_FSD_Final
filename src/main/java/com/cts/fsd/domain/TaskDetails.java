@@ -2,13 +2,15 @@ package com.cts.fsd.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,19 +27,29 @@ public class TaskDetails {
 	@Column(name = "task_id")
 	private int taskId;
 
+	@Column(name = "project_id")
+	private Integer projectId;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "project_id", nullable = true, insertable = false, updatable = false)
+	private Project projectName;
+
+	@Column
+	private String task;
+
 	@Column(name = "parent_task_id", nullable = true)
 	private Integer parentTaskId;
 
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "parent_task_id", insertable = false, updatable = false)
+	@Column(name = "marked_parent")
+	private boolean markedParent;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "parent_task_id", nullable = true, insertable = false, updatable = false)
 	@JsonBackReference
 	private TaskDetails parentTaskRef;
 
 	@Column(insertable = false, updatable = false)
 	private String parentTask;
-
-	@Column
-	private String task;
 
 	@Column
 	private Integer priority;
@@ -55,6 +67,13 @@ public class TaskDetails {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 
+	@Column(name = "user_id", nullable = true)
+	private Integer userId;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", nullable = true, insertable = false, updatable = false)
+	private User user;
+
 	public TaskDetails() {
 		super();
 	}
@@ -67,12 +86,44 @@ public class TaskDetails {
 		this.taskId = taskId;
 	}
 
-	public void setParentTaskId(Integer parentTaskId) {
-		this.parentTaskId = parentTaskId;
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
+	public Project getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(Project projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getTask() {
+		return task;
+	}
+
+	public void setTask(String task) {
+		this.task = task;
 	}
 
 	public Integer getParentTaskId() {
 		return parentTaskId;
+	}
+
+	public void setParentTaskId(Integer parentTaskId) {
+		this.parentTaskId = parentTaskId;
+	}
+
+	public boolean isMarkedParent() {
+		return markedParent;
+	}
+
+	public void setMarkedParent(boolean markedParent) {
+		this.markedParent = markedParent;
 	}
 
 	public TaskDetails getParentTaskRef() {
@@ -94,20 +145,12 @@ public class TaskDetails {
 		this.parentTask = parentTask;
 	}
 
-	public String getTask() {
-		return task;
-	}
-
 	public Integer getPriority() {
 		return priority;
 	}
 
 	public void setPriority(Integer priority) {
 		this.priority = priority;
-	}
-
-	public void setTask(String task) {
-		this.task = task;
 	}
 
 	public String getStatus() {
@@ -134,10 +177,28 @@ public class TaskDetails {
 		this.endDate = endDate;
 	}
 
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
 	@Override
 	public String toString() {
-		return "TaskDetails [taskId=" + taskId + ", parentTaskId=" + parentTaskId + ", task=" + task + ", status="
-				+ status + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+		return "TaskDetails [taskId=" + taskId + ", projectId=" + projectId + ", projectName=" + projectName + ", task="
+				+ task + ", parentTaskId=" + parentTaskId + ", parentTask=" + parentTask + ", priority=" + priority
+				+ ", status=" + status + ", startDate=" + startDate + ", endDate=" + endDate + ", userId=" + userId
+				+ ", user=" + user + "]";
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

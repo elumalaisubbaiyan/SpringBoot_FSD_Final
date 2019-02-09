@@ -42,6 +42,28 @@ public class TaskController {
 		return ResponseEntity.ok(allTasks);
 	}
 
+	@RequestMapping(value = "/projects/{projectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<Object> getTasksByProjectId(@PathVariable int projectId, HttpServletResponse response) {
+		List<TaskDetails> tasksByProject = taskService.getTasksByProject(projectId);
+		if (tasksByProject == null || tasksByProject.isEmpty()) {
+			ErrorMessage errorMessage = new ErrorMessage("No Tasks are available for the selected project");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+		return ResponseEntity.ok(tasksByProject);
+	}
+
+	@RequestMapping(value = "/parents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<Object> getParentTasks(HttpServletResponse response) {
+		List<TaskDetails> allTasks = taskService.getParentTasks();
+		if (allTasks == null || allTasks.isEmpty()) {
+			ErrorMessage errorMessage = new ErrorMessage("No Parent Tasks are available");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+		return ResponseEntity.ok(allTasks);
+	}
+
 	@RequestMapping(value = "/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Object> getTask(@PathVariable Integer taskId, HttpServletResponse response) {
@@ -64,13 +86,6 @@ public class TaskController {
 	public ResponseEntity<Object> addTask(@RequestBody TaskDetails taskDetails, HttpServletRequest request) {
 		try {
 
-			if (taskDetails.getParentTaskId() != null
-					&& (taskDetails.getParentTaskId() == 0 || taskDetails.getParentTaskId() == -1)) {
-				if (taskDetails.getParentTaskId() == -1) {
-					taskDetails.setParentTask("Self");
-				}
-				taskDetails.setParentTaskId(null);
-			}
 			initializeTaskStatus(taskDetails);
 			taskService.addTask(taskDetails);
 			log.info("Successfully added task {} ", taskDetails);
@@ -89,21 +104,11 @@ public class TaskController {
 		try {
 			log.info("Task to be updated {} ", task);
 			initializeTaskStatus(task);
-			if (task.getParentTaskId() != null) {
-				if (task.getParentTaskId() == 0) {
-					task.setParentTaskId(null);
-				} else if (task.getParentTaskId() == -1) {
-					task.setParentTaskId(task.getTaskId());
-				}
-			}
-
 			task.setTaskId(taskId);
 			taskService.updateTask(task);
 			log.info("Successfully updated details for task id {}", task.getTaskId());
 			return ResponseEntity.ok(task);
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			log.error("Cannot update task " + task + ". Exception occured " + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(
 					"Exception occured processing your request. Please try again. " + e.getMessage());
