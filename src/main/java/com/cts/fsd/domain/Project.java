@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Formula;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -48,6 +50,12 @@ public class Project {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "manager_id", nullable = true, insertable = false, updatable = false)
 	private User manager;
+
+	@Formula("(SELECT count(*) FROM task_details t WHERE t.project_id = project_id)")
+	private int numberOfTasks;
+
+	@Formula("(SELECT count(*) FROM task_details t WHERE t.project_id = project_id and t.status='Closed')")
+	private int completedTasks;
 
 	public Project() {
 		super();
@@ -98,14 +106,28 @@ public class Project {
 		this.endDate = endDate;
 	}
 
-	// @OneToOne(cascade = CascadeType.ALL)
-	// @JoinColumn(name = "manager_id", referencedColumnName = "user_id")
 	public User getManager() {
 		return manager;
 	}
 
 	public void setManager(User manager) {
 		this.manager = manager;
+	}
+
+	public int getNumberOfTasks() {
+		return numberOfTasks;
+	}
+
+	public void setNumberOfTasks(int numberOfTasks) {
+		this.numberOfTasks = numberOfTasks;
+	}
+
+	public int getCompletedTasks() {
+		return completedTasks;
+	}
+
+	public void setCompletedTasks(int completedTasks) {
+		this.completedTasks = completedTasks;
 	}
 
 	public Integer getManagerId() {
