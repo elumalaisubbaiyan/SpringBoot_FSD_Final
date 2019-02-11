@@ -60,12 +60,13 @@ public class TaskControllerTest {
 		allTasks.add(new TaskDetails());
 		TaskService taskService = (TaskService) wac.getBean("taskService");
 		when(taskService.getAllTasks()).thenReturn(allTasks);
+		when(taskService.getTasksByProject(1)).thenReturn(allTasks);
 		when(taskService.searchTask(any(Integer.class))).thenReturn(new TaskDetails());
 		when(taskService.searchTask(0)).thenReturn(null);
 		doThrow(new RuntimeException()).when(taskService).addTask(taskToBeAddedForException);
 		doThrow(new RuntimeException()).when(taskService).updateTask(taskToBeAddedForException);
 
-		doThrow(new NotFoundException("")).when(taskService).deleteTask(0);
+		// doThrow(new NotFoundException("")).when(taskService).deleteTask(0);
 
 	}
 
@@ -87,6 +88,20 @@ public class TaskControllerTest {
 		TaskService taskService = (TaskService) wac.getBean("taskService");
 		when(taskService.getAllTasks()).thenReturn(null);
 		this.mockMvc.perform(get("/tasks").contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isNotFound()).andReturn();
+	}
+
+	@Test
+	public void testGetTasksByProjectId() throws Exception {
+		this.mockMvc.perform(get("/tasks/projects/1").contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andReturn();
+	}
+
+	@Test
+	public void testGetTasksByProjectIdNotFound() throws Exception {
+		TaskService taskService = (TaskService) wac.getBean("taskService");
+		when(taskService.getTasksByProject(2)).thenReturn(null);
+		this.mockMvc.perform(get("/tasks/projects/2").contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isNotFound()).andReturn();
 	}
 
@@ -165,26 +180,20 @@ public class TaskControllerTest {
 				.andExpect(status().isOk()).andReturn();
 	}
 
-	@Test
-	public void testDeleteTaskInternalServerError() throws Exception {
-		this.mockMvc.perform(delete("/tasks/0").contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isInternalServerError()).andReturn();
-	}
-
 	private String addTaskRequestJson() {
-		return "{ \"taskId\": \"2\", \"task\":\"Task 1\"}";
+		return "{ \"taskId\": \"2\", \"task\":\"Task 1\", \"projectId\": \"2\"}";
 	}
 
 	private String addTaskRequestJsonNoParent() {
-		return "{ \"taskId\": \"2\", \"task\":\"Task 1\" , \"parentTaskId\": \"0\"}";
+		return "{ \"taskId\": \"2\", \"task\":\"Task 1\" , \"projectId\": \"1\"}";
 	}
 
 	private String addTaskRequestJsonSameParent() {
-		return "{ \"taskId\": \"2\", \"task\":\"Task 1\" , \"parentTaskId\": \"-1\"}";
+		return "{ \"taskId\": \"2\", \"task\":\"Task 1\" ,  \"projectId\": \"1\"}";
 	}
 
 	private String addTaskRequestExceptionJson() {
-		return "{ \"taskId\": \"-5\", \"task\":\"Validate Exception\"}";
+		return "{ \"taskId\": \"-5\",  \"projectId\": \"1\", \"task\":\"Validate Exception\"}";
 	}
 
 }

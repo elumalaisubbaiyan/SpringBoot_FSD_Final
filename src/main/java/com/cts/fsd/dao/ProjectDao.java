@@ -12,7 +12,7 @@ public interface ProjectDao {
 
 	Project searchProject(Integer projectId);
 
-	void deleteProject(Project project);
+	//void deleteProject(Project project);
 
 	List<Project> getAllProjects();
 

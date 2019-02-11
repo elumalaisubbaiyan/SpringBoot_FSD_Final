@@ -29,9 +29,9 @@ public class ProjectDaoImpl extends BaseDao implements ProjectDao {
 		return project;
 	}
 
-	public void deleteProject(Project project) {
+	/*public void deleteProject(Project project) {
 		deleteData(project);
-	}
+	}*/
 
 	@SuppressWarnings("unchecked")
 	public List<Project> getAllProjects() {

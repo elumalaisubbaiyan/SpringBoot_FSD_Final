@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.cts.fsd.dao.TaskDetailsDao;
 import com.cts.fsd.domain.TaskDetails;
 
-import javassist.NotFoundException;
-
 @Service
 public class TaskServiceImpl implements TaskService {
 	@Autowired
@@ -27,28 +25,13 @@ public class TaskServiceImpl implements TaskService {
 		return taskDetailsDao.searchTask(taskId);
 	}
 
-	public void deleteTask(Integer taskId) throws NotFoundException {
-		TaskDetails task = taskDetailsDao.searchTask(taskId);
-		if (task == null) {
-			throw new NotFoundException("Cannot find task with " + taskId);
-		}
-		taskDetailsDao.deleteTask(task);
-	}
-
 	public List<TaskDetails> getAllTasks() {
 		return taskDetailsDao.getAllTasks();
-	}
-	
-	public List<TaskDetails> getParentTasks() {
-		return taskDetailsDao.getParentTasks();
 	}
 
 	@Override
 	public List<TaskDetails> getTasksByProject(int projectId) {
 		return taskDetailsDao.getTasksByProject(projectId);
 	}
-	
-	
-
 
 }

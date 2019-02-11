@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.fsd.domain.ErrorMessage;
-import com.cts.fsd.domain.ResponseData;
 import com.cts.fsd.domain.Project;
 import com.cts.fsd.service.ProjectService;
 
@@ -90,20 +89,20 @@ public class ProjectsController {
 		}
 	}
 
-	@RequestMapping(value = "/{projectIdToDelete}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteProject(@PathVariable Integer projectIdToDelete, HttpServletRequest request) {
-		try {
-			log.info("Project id to be deleted {} ", projectIdToDelete);
-			projectService.deleteProject(projectIdToDelete);
-			log.info("Successfully deleted project with project id {} ", projectIdToDelete);
-		} catch (Exception e) {
-			log.error("Cannot delete project with id " + projectIdToDelete + ". Exception occured " + e.getMessage(), e);
-			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
-			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		ResponseData responseData = new ResponseData();
-		responseData.setStatusMsg("Successfully Deleted project with project id " + projectIdToDelete);
-		return ResponseEntity.ok(responseData);
-	}
+//	@RequestMapping(value = "/{projectIdToDelete}", method = RequestMethod.DELETE)
+//	public ResponseEntity<Object> deleteProject(@PathVariable Integer projectIdToDelete, HttpServletRequest request) {
+//		try {
+//			log.info("Project id to be deleted {} ", projectIdToDelete);
+//			projectService.deleteProject(projectIdToDelete);
+//			log.info("Successfully deleted project with project id {} ", projectIdToDelete);
+//		} catch (Exception e) {
+//			log.error("Cannot delete project with id " + projectIdToDelete + ". Exception occured " + e.getMessage(), e);
+//			ErrorMessage errorMessage = new ErrorMessage(ERROR_MSG + e.getMessage());
+//			return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//		ResponseData responseData = new ResponseData();
+//		responseData.setStatusMsg("Successfully Deleted project with project id " + projectIdToDelete);
+//		return ResponseEntity.ok(responseData);
+//	}
 
 }

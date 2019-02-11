@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.cts.fsd.domain.TaskDetails;
 
-import javassist.NotFoundException;
-
 public interface TaskService {
 
 	void addTask(TaskDetails task);
@@ -14,11 +12,11 @@ public interface TaskService {
 
 	TaskDetails searchTask(Integer taskId);
 
-	void deleteTask(Integer taskId) throws NotFoundException;
+	// void deleteTask(Integer taskId) throws NotFoundException;
 
 	List<TaskDetails> getAllTasks();
 
-	List<TaskDetails> getParentTasks();
+	//List<TaskDetails> getParentTasks();
 
 	List<TaskDetails> getTasksByProject(int projectId);
 

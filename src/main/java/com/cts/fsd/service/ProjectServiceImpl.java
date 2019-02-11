@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.cts.fsd.dao.ProjectDao;
 import com.cts.fsd.domain.Project;
 
-import javassist.NotFoundException;
-
 @Service
 public class ProjectServiceImpl implements ProjectService {
 	@Autowired
@@ -25,14 +23,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 	public Project searchProject(Integer projectId) {
 		return projectDao.searchProject(projectId);
-	}
-
-	public void deleteProject(Integer projectId) throws NotFoundException {
-		Project task = projectDao.searchProject(projectId);
-		if (task == null) {
-			throw new NotFoundException("Cannot find project with " + projectId);
-		}
-		projectDao.deleteProject(task);
 	}
 
 	public List<Project> getAllProjects() {

@@ -53,16 +53,16 @@ public class TaskController {
 		return ResponseEntity.ok(tasksByProject);
 	}
 
-	@RequestMapping(value = "/parents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Object> getParentTasks(HttpServletResponse response) {
-		List<TaskDetails> allTasks = taskService.getParentTasks();
-		if (allTasks == null || allTasks.isEmpty()) {
-			ErrorMessage errorMessage = new ErrorMessage("No Parent Tasks are available");
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-		}
-		return ResponseEntity.ok(allTasks);
-	}
+//	@RequestMapping(value = "/parents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//	@ResponseBody
+//	public ResponseEntity<Object> getParentTasks(HttpServletResponse response) {
+//		List<TaskDetails> allTasks = taskService.getParentTasks();
+//		if (allTasks == null || allTasks.isEmpty()) {
+//			ErrorMessage errorMessage = new ErrorMessage("No Parent Tasks are available");
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+//		}
+//		return ResponseEntity.ok(allTasks);
+//	}
 
 	@RequestMapping(value = "/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -119,7 +119,7 @@ public class TaskController {
 	@RequestMapping(value = "/{taskIdToDelete}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteTask(@PathVariable Integer taskIdToDelete, HttpServletRequest request) {
 		try {
-			taskService.deleteTask(taskIdToDelete);
+			// taskService.deleteTask(taskIdToDelete);
 		} catch (Exception e) {
 			log.error("Cannot delete task with id " + taskIdToDelete + ". Exception occured " + e.getMessage(), e);
 			ErrorMessage errorMessage = new ErrorMessage(

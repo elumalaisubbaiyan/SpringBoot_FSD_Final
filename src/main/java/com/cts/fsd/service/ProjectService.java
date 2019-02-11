@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.cts.fsd.domain.Project;
 
-import javassist.NotFoundException;
-
 public interface ProjectService {
 
 	void addProject(Project project);
@@ -14,7 +12,7 @@ public interface ProjectService {
 
 	Project searchProject(Integer projectId);
 
-	void deleteProject(Integer projectId) throws NotFoundException;
+	// void deleteProject(Integer projectId) throws NotFoundException;
 
 	List<Project> getAllProjects();
 

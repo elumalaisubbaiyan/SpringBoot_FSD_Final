@@ -139,6 +139,13 @@ public class Project {
 	}
 
 	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", priority=" + priority
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", managerId=" + managerId + ", manager="
+				+ manager + ", numberOfTasks=" + numberOfTasks + ", completedTasks=" + completedTasks + "]";
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || (obj.getClass() != this.getClass())) {
 			return false;

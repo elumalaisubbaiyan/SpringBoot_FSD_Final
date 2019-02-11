@@ -22,7 +22,6 @@ public abstract class EntityDaoTest extends AbstractTransactionalJUnit4SpringCon
 	@Autowired
 	private DataSource dataSource;
 	
-	
 	@Before
 	public void setUp() throws Exception {
 		IDatabaseConnection dbConn = new DatabaseDataSourceConnection(dataSource);

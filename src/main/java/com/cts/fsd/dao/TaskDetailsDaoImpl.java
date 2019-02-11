@@ -37,12 +37,12 @@ public class TaskDetailsDaoImpl extends BaseDao implements TaskDetailsDao {
 		return task;
 	}
 
-	public void deleteTask(TaskDetails task) {
+	/*public void deleteTask(TaskDetails task) {
 		Session session = openSessionwithTransaction();
 		session.delete(task);
 		session.flush();
 		closeSessionwithTransaction(session);
-	}
+	}*/
 
 	@SuppressWarnings("unchecked")
 	public List<TaskDetails> getAllTasks() {

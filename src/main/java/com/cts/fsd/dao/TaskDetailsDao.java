@@ -12,7 +12,7 @@ public interface TaskDetailsDao {
 
 	TaskDetails searchTask(Integer taskId);
 
-	void deleteTask(TaskDetails task);
+	//void deleteTask(TaskDetails task);
 
 	List<TaskDetails> getAllTasks();
 
