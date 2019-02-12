@@ -74,6 +74,7 @@ public class ProjectDaoTest extends EntityDaoTest {
 	public void testExceptionForUpdateTask() {
 		Project project = new Project();
 		project.setProjectId(4);
+		project.setProjectName("");
 		projectDao.updateProject(project);
 	}
 

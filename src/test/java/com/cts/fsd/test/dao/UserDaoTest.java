@@ -81,6 +81,9 @@ public class UserDaoTest extends EntityDaoTest {
 	public void testExceptionForUpdateUser() {
 		User newUser = new User();
 		newUser.setUserId(4);
+		newUser.setEmployeeId(582121);
+		newUser.setFirstName("");
+		newUser.setLastName("");
 		userDao.updateUser(newUser);
 	}
 
